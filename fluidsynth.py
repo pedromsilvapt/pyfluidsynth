@@ -37,7 +37,7 @@ lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
     find_library('libfluidsynth-2') or \
     find_library('libfluidsynth-1')
-    
+
 if lib is None:
     raise ImportError("Couldn't find the FluidSynth library.")
 
@@ -223,22 +223,22 @@ fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
                                   ('chan', c_int, 1),
                                   ('info', POINTER(fluid_synth_channel_info_t), 1))
 
-fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
-                                    ('synth', c_void_p, 1),
-                                    ('set', c_int, 1),
-                                    ('roomsize', c_double, 1),
-                                    ('damping', c_double, 1),
-                                    ('width', c_double, 1),
-                                    ('level', c_double, 1))
-                                    
-fluid_synth_set_chorus_full = cfunc('fluid_synth_set_chorus_full', c_int,
-                                    ('synth', c_void_p, 1),
-                                    ('set', c_int, 1),
-                                    ('nr', c_int, 1),
-                                    ('level', c_double, 1),
-                                    ('speed', c_double, 1),
-                                    ('depth_ms', c_double, 1),
-                                    ('type', c_int, 1))
+# fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
+#                                     ('synth', c_void_p, 1),
+#                                     ('set', c_int, 1),
+#                                     ('roomsize', c_double, 1),
+#                                     ('damping', c_double, 1),
+#                                     ('width', c_double, 1),
+#                                     ('level', c_double, 1))
+
+# fluid_synth_set_chorus_full = cfunc('fluid_synth_set_chorus_full', c_int,
+#                                     ('synth', c_void_p, 1),
+#                                     ('set', c_int, 1),
+#                                     ('nr', c_int, 1),
+#                                     ('level', c_double, 1),
+#                                     ('speed', c_double, 1),
+#                                     ('depth_ms', c_double, 1),
+#                                     ('type', c_int, 1))
 
 fluid_synth_set_reverb = cfunc('fluid_synth_set_reverb', c_int,
                                     ('synth', c_void_p, 1),
@@ -270,7 +270,7 @@ fluid_synth_set_reverb_level = cfunc('fluid_synth_set_reverb_level', c_int,
 fluid_synth_set_reverb_width = cfunc('fluid_synth_set_reverb_width', c_int,
                                     ('synth', c_void_p, 1),
                                     ('width', c_double, 1))
-          
+
 fluid_synth_set_chorus_nr = cfunc('fluid_synth_set_chorus_nr', c_int,
                                     ('synth', c_void_p, 1),
                                     ('nr', c_int, 1))
@@ -294,7 +294,7 @@ fluid_synth_get_reverb_level = cfunc('fluid_synth_get_reverb_level', c_double,
 fluid_synth_get_reverb_width = cfunc('fluid_synth_get_reverb_width', c_double,
                                     ('synth', c_void_p, 1))
 
-                                    
+
 fluid_synth_get_chorus_nr = cfunc('fluid_synth_get_chorus_nr', c_int,
                                     ('synth', c_void_p, 1))
 
@@ -351,7 +351,7 @@ fluid_sequencer_send_at = cfunc('fluid_sequencer_send_at', c_int,
                                ('evt', c_void_p, 1),
                                ('time', c_uint, 1),
                                ('absolute', c_int, 1))
-                               
+
 
 delete_fluid_sequencer = cfunc('delete_fluid_sequencer', None,
                               ('seq', c_void_p, 1))
@@ -423,7 +423,7 @@ class fluid_midi_router_t(Structure):
 
 delete_fluid_midi_router_rule = cfunc('delete_fluid_midi_router_rule', c_int,
                                     ('rule', c_void_p, 1))
-                                    
+
 new_fluid_midi_router_rule = cfunc('new_fluid_midi_router_rule', c_void_p)
 
 fluid_midi_router_rule_set_chan = cfunc('fluid_midi_router_rule_set_chan', None,
@@ -432,14 +432,14 @@ fluid_midi_router_rule_set_chan = cfunc('fluid_midi_router_rule_set_chan', None,
                                     ('max', c_int, 1),
                                     ('mul', c_float, 1),
                                     ('add', c_int, 1))
-                                    
+
 fluid_midi_router_rule_set_param1 = cfunc('fluid_midi_router_rule_set_param1', None,
                                     ('rule', c_void_p, 1),
                                     ('min', c_int, 1),
                                     ('max', c_int, 1),
                                     ('mul', c_float, 1),
                                     ('add', c_int, 1))
-                                    
+
 fluid_midi_router_rule_set_param2 = cfunc('fluid_midi_router_rule_set_param2', None,
                                     ('rule', c_void_p, 1),
                                     ('min', c_int, 1),
@@ -499,19 +499,19 @@ fluid_synth_set_chorus = cfunc('fluid_synth_set_chorus', c_int,
                                     ('speed', c_double, 1),
                                     ('depth_ms', c_double, 1),
                                     ('type', c_int, 1))
-                                        
+
 fluid_synth_get_chorus_speed = cfunc('fluid_synth_get_chorus_speed', c_double,
                                      ('synth', c_void_p, 1))
 
 fluid_synth_get_chorus_depth = cfunc('fluid_synth_get_chorus_depth', c_double,
                                      ('synth', c_void_p, 1))
 
-        
+
 def fluid_synth_write_s16_stereo(synth, len):
     """Return generated samples in stereo 16-bit format
-    
+
     Return value is a Numpy array of samples.
-    
+
     """
     import numpy
     buf = create_string_buffer(len * 4)
@@ -700,7 +700,7 @@ class Synth:
                 set+=0b1000
             return fluid_synth_set_reverb_full(self.synth, set, roomsize, damping, width, level)
     def set_chorus(self, nr=-1, level=-1.0, speed=-1.0, depth=-1.0, type=-1):
-        """                                  
+        """
         nr Chorus voice count (0-99, CPU time consumption proportional to this value)
         level Chorus level (0.0-10.0)
         speed Chorus speed in Hz (0.29-5.0)
@@ -814,7 +814,7 @@ class Synth:
         A value of -2048 is 1 semitone down.
         A value of 2048 is 1 semitone up.
         Maximum values are -8192 to +8192 (transposing by 4 semitones).
-        
+
         """
         return fluid_synth_pitch_bend(self.synth, chan, val + 8192)
     def cc(self, chan, ctrl, val):
@@ -939,7 +939,7 @@ def raw_audio_string(data):
 
     Input is a numpy array of samples.  Default output format
     is 16-bit signed (other formats not currently supported).
-    
+
     """
     import numpy
     return (data.astype(numpy.int16)).tostring()
