@@ -615,7 +615,22 @@ class RamSoundFont:
 
         nbframes = wave.getnframes()
 
-        fluid_sample_set_sound_data( sample, wave.readframes( nbframes ), nbframes, c_short( 1 ), rootkey )
+        if wave.getnframes() == 2147483647:
+            frames : bytearray = bytearray( wave.readframes( 2000 ) )
+
+            while True:
+                res = wave.readframes( 2000 )
+
+                if not len( res ):
+                    break
+
+                frames.extend( res )
+
+            framesize = wave.getnchannels() * wave.getsampwidth()
+
+            fluid_sample_set_sound_data( sample, bytes( frames ), int( len( frames ) / framesize ), 1, rootkey )
+        else:
+            fluid_sample_set_sound_data( sample, wave.readframes( wave.getnframes() ), nbframes, 1, rootkey )
 
         return sample
 
